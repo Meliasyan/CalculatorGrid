@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -18,11 +17,15 @@ public class MainActivity extends AppCompatActivity
 
     TextView textViewResult;
 
-    EditText editTextInput;
+    TextView editTextInput;
 
-    int firstValue, secondValue;
+    double firstValue, secondValue;
 
-    boolean Add, Sub, Multiply, Divide;
+    public enum Operation {
+        Add, Sub, Multiply, Divide, Percentage, Nothing
+    }
+
+    public Operation currentOp;
 
 
     @Override
@@ -54,8 +57,6 @@ public class MainActivity extends AppCompatActivity
         editTextInput = findViewById(R.id.tv_userInput);
         textViewResult = findViewById(R.id.tv_userResult);
 
-
-
         button_clear.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -78,6 +79,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        button_doubleZero.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                editTextInput.setText(editTextInput.getText() + "00");
+                textViewResult.setText(textViewResult.getText() + "00");
+            }
+        });
 
         button_one.setOnClickListener(new View.OnClickListener()
         {
@@ -169,15 +179,21 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+
+
+
+
         button_plus.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                currentOp = Operation.Add;
+                firstValue = Double.parseDouble(editTextInput.getText() + "");
+                editTextInput.setText(editTextInput.getText() + "+" );
+                textViewResult.setText(String.valueOf(firstValue + secondValue));
 
-                firstValue = Integer.parseInt(editTextInput.getText() + "");
-                Sub = true;
-                textViewResult.setText(null);
             }
         });
 
@@ -186,9 +202,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                firstValue = Integer.parseInt(editTextInput.getText() + "");
-                Sub = true;
-                textViewResult.setText(null);
+                firstValue = Double.parseDouble(editTextInput.getText() + "");
+                currentOp = Operation.Sub;
+                editTextInput.setText(editTextInput.getText() + "-");
+                textViewResult.setText(String.valueOf(firstValue - secondValue));
+
+
             }
         });
 
@@ -197,9 +216,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                firstValue = Integer.parseInt(editTextInput.getText() + "");
-                Multiply = true;
-                textViewResult.setText(null);
+                firstValue = Double.parseDouble(editTextInput.getText() + "");
+                currentOp = Operation.Multiply;
+                editTextInput.setText(editTextInput.getText() + "*");
+                textViewResult.setText(String.valueOf(firstValue * secondValue));
+
             }
         });
 
@@ -208,41 +229,85 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                firstValue = Integer.parseInt(editTextInput.getText() + "");
-                Divide = true;
-                textViewResult.setText(null);
+                firstValue = Double.parseDouble(editTextInput.getText() + "");
+                currentOp = Operation.Divide;
+                editTextInput.setText(editTextInput.getText() + "/");
+                textViewResult.setText(String.valueOf(firstValue / secondValue));
+
             }
         });
+
+        button_percentage.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                firstValue = Double.parseDouble(editTextInput.getText() + "");
+                currentOp = Operation.Percentage;
+                editTextInput.setText(editTextInput.getText() + "%");
+                textViewResult.setText(String.valueOf(firstValue / 100));
+
+            }
+        });
+
+        button_dot.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                editTextInput.setText(editTextInput.getText() + ".");
+                textViewResult.setText(textViewResult.getText() + ".");
+            }
+        });
+
+
+
 
         button_equal.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v) {
-                secondValue = Integer.parseInt(editTextInput.getText() + "");
+            public void onClick(View v)
+            {
+                String inputString = editTextInput.getText().toString();
 
-                if (Add == true)
-                {
-                    textViewResult.setText(firstValue + secondValue + "");
-                    Add = false;
+                inputString.split("[+\\-/*]");
+                secondValue = Double.parseDouble(editTextInput.getText().toString());
+
+                switch (currentOp) {
+                    case Add:
+                        editTextInput.setText(String.valueOf(firstValue + secondValue));
+                        textViewResult.setText("");
+                        break;
+
+                    case Sub:
+                        editTextInput.setText(firstValue - secondValue + "");
+                        textViewResult.setText(firstValue - secondValue + "");
+                        break;
+
+                    case Multiply:
+                        editTextInput.setText(firstValue * secondValue + "");
+                        textViewResult.setText(firstValue * secondValue + "");
+                        break;
+
+                    case Divide:
+                        if (secondValue == 0)
+                        {
+                            editTextInput.setText("ERROR");
+                            textViewResult.setText("ERROR");
+                        } else
+                            {
+                            editTextInput.setText(firstValue / secondValue + "");
+                            textViewResult.setText(firstValue / secondValue + "");
+                        }
+                        break;
+
+                    case Percentage:
+                        editTextInput.setText(firstValue / 100 + "");
+                        textViewResult.setText(firstValue / 100 + "");
+                        break;
                 }
 
-                if (Sub == true)
-                {
-                    textViewResult.setText(firstValue - secondValue + "");
-                    Sub = false;
-                }
-
-                if (Multiply == true)
-                {
-                    textViewResult.setText(firstValue * secondValue + "");
-                    Multiply = false;
-                }
-
-                if (Divide == true)
-                {
-                    textViewResult.setText(firstValue / secondValue + "");
-                    Divide = false;
-                }
+                currentOp = Operation.Nothing;
             }
         });
 
