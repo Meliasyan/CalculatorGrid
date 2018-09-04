@@ -27,6 +27,7 @@
         android:layout_height="0dp"
         android:layout_margin="4dp"
         android:text="%"
+        android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/button_clear"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toLeftOf="@id/button_divide"

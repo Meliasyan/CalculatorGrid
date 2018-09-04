@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.example.meliasyan.calculatorGrid.R;
 
+import java.text.DecimalFormat;
+
 
 public class MainActivity extends AppCompatActivity
 {
@@ -17,15 +19,8 @@ public class MainActivity extends AppCompatActivity
 
     TextView textViewResult;
 
-    TextView editTextInput;
+    TextView textViewInput;
 
-    double firstValue, secondValue;
-
-    public enum Operation {
-        Add, Sub, Multiply, Divide, Percentage, Nothing
-    }
-
-    public Operation currentOp;
 
 
     @Override
@@ -54,8 +49,10 @@ public class MainActivity extends AppCompatActivity
         button_zero = findViewById(R.id.button_zero);
         button_doubleZero = findViewById(R.id.button_doubleZero);
 
-        editTextInput = findViewById(R.id.tv_userInput);
+        textViewInput = findViewById(R.id.tv_userInput);
         textViewResult = findViewById(R.id.tv_userResult);
+
+        final DecimalFormat format = new DecimalFormat("0.#");
 
         button_clear.setOnClickListener(new View.OnClickListener()
         {
@@ -63,7 +60,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 textViewResult.setText("");
-                editTextInput.setText("");
+                textViewInput.setText("");
             }
 
         });
@@ -74,8 +71,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "0");
-                textViewResult.setText(textViewResult.getText() + "0");
+                textViewInput.setText(textViewInput.getText() + "0");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
@@ -84,8 +82,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "00");
-                textViewResult.setText(textViewResult.getText() + "00");
+                textViewInput.setText(textViewInput.getText() + "00");
+                double result = eval(textViewInput.getText().toString());
+                textViewInput.setText(removeTrailingZeros(result));
             }
         });
 
@@ -94,8 +93,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "1");
-                textViewResult.setText(textViewResult.getText() + "1");
+                textViewInput.setText(textViewInput.getText() + "1");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
@@ -104,8 +104,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "2");
-                textViewResult.setText(textViewResult.getText() + "2");
+                textViewInput.setText(textViewInput.getText() + "2");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
@@ -114,8 +115,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "3");
-                textViewResult.setText(textViewResult.getText() + "3");
+                textViewInput.setText(textViewInput.getText() + "3");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
@@ -124,8 +126,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "4");
-                textViewResult.setText(textViewResult.getText() + "4");
+                textViewInput.setText(textViewInput.getText() + "4");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
@@ -134,8 +137,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "5");
-                textViewResult.setText(textViewResult.getText() + "5");
+                textViewInput.setText(textViewInput.getText() + "5");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
@@ -144,9 +148,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "6");
-                textViewResult.setText(textViewResult.getText() + "6");
-            }
+                textViewInput.setText(textViewInput.getText() + "6");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
+                }
         });
 
         button_seven.setOnClickListener(new View.OnClickListener()
@@ -154,8 +159,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "7");
-                textViewResult.setText(textViewResult.getText() + "7");
+                textViewInput.setText(textViewInput.getText() + "7");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
@@ -164,8 +170,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "8");
-                textViewResult.setText(textViewResult.getText() + "8");
+                textViewInput.setText(textViewInput.getText() + "8");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
@@ -174,26 +181,21 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + "9");
-                textViewResult.setText(textViewResult.getText() + "9");
+                textViewInput.setText(textViewInput.getText() + "9");
+                double result = eval(textViewInput.getText().toString());
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
-
-
-
-
-
+        //Operations
         button_plus.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                currentOp = Operation.Add;
-                firstValue = Double.parseDouble(editTextInput.getText() + "");
-                editTextInput.setText(editTextInput.getText() + "+" );
-                textViewResult.setText(String.valueOf(firstValue + secondValue));
-
+                double result = eval(textViewInput.getText().toString());
+                textViewInput.setText(textViewInput.getText() + "+" );
+                textViewResult.setText(removeTrailingZeros(result));
             }
         });
 
@@ -202,10 +204,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                firstValue = Double.parseDouble(editTextInput.getText() + "");
-                currentOp = Operation.Sub;
-                editTextInput.setText(editTextInput.getText() + "-");
-                textViewResult.setText(String.valueOf(firstValue - secondValue));
+
+                double result = eval(textViewInput.getText().toString());
+                textViewInput.setText(textViewInput.getText() + "-" );
+                textViewResult.setText(removeTrailingZeros(result));
 
 
             }
@@ -216,10 +218,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                firstValue = Double.parseDouble(editTextInput.getText() + "");
-                currentOp = Operation.Multiply;
-                editTextInput.setText(editTextInput.getText() + "*");
-                textViewResult.setText(String.valueOf(firstValue * secondValue));
+
+                double result = eval(textViewInput.getText().toString());
+                textViewInput.setText(textViewInput.getText() + "*" );
+                textViewResult.setText(removeTrailingZeros(result));
 
             }
         });
@@ -229,10 +231,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                firstValue = Double.parseDouble(editTextInput.getText() + "");
-                currentOp = Operation.Divide;
-                editTextInput.setText(editTextInput.getText() + "/");
-                textViewResult.setText(String.valueOf(firstValue / secondValue));
+
+                double result = eval(textViewInput.getText().toString());
+                textViewInput.setText(textViewInput.getText() + "/" );
+                textViewResult.setText(removeTrailingZeros(result));
 
             }
         });
@@ -242,10 +244,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                firstValue = Double.parseDouble(editTextInput.getText() + "");
-                currentOp = Operation.Percentage;
-                editTextInput.setText(editTextInput.getText() + "%");
-                textViewResult.setText(String.valueOf(firstValue / 100));
+
+                double result = eval(textViewInput.getText().toString());
+                textViewInput.setText(textViewInput.getText() + "%" );
+                textViewResult.setText(removeTrailingZeros(result));
+                textViewResult.setText(removeTrailingZeros(result));
+
 
             }
         });
@@ -255,7 +259,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                editTextInput.setText(editTextInput.getText() + ".");
+                textViewInput.setText(textViewInput.getText() + ".");
                 textViewResult.setText(textViewResult.getText() + ".");
             }
         });
@@ -268,49 +272,129 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                String inputString = editTextInput.getText().toString();
-
-                inputString.split("[+\\-/*]");
-                secondValue = Double.parseDouble(editTextInput.getText().toString());
-
-                switch (currentOp) {
-                    case Add:
-                        editTextInput.setText(String.valueOf(firstValue + secondValue));
-                        textViewResult.setText("");
-                        break;
-
-                    case Sub:
-                        editTextInput.setText(firstValue - secondValue + "");
-                        textViewResult.setText(firstValue - secondValue + "");
-                        break;
-
-                    case Multiply:
-                        editTextInput.setText(firstValue * secondValue + "");
-                        textViewResult.setText(firstValue * secondValue + "");
-                        break;
-
-                    case Divide:
-                        if (secondValue == 0)
-                        {
-                            editTextInput.setText("ERROR");
-                            textViewResult.setText("ERROR");
-                        } else
-                            {
-                            editTextInput.setText(firstValue / secondValue + "");
-                            textViewResult.setText(firstValue / secondValue + "");
-                        }
-                        break;
-
-                    case Percentage:
-                        editTextInput.setText(firstValue / 100 + "");
-                        textViewResult.setText(firstValue / 100 + "");
-                        break;
-                }
-
-                currentOp = Operation.Nothing;
+                double result = eval(textViewInput.getText().toString());
+                textViewInput.setText(removeTrailingZeros(result));
+                textViewResult.setText("");
             }
         });
+    }
 
+    //Functions
+    public double eval(final String str)
+    {
+        return new Object()
+        {
+            int pos = -1, ch;
+
+            void nextChar()
+            {
+                ch = (++pos < str.length()) ? str.charAt(pos) : -1;
+            }
+
+            boolean eat(int charToEat)
+            {
+                while (ch == ' ') nextChar();
+                if (ch == charToEat)
+                {
+                    nextChar();
+                    return true;
+                }
+                return false;
+            }
+
+            double parse()
+            {
+                nextChar();
+                double x = parseExpression();
+                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+                return x;
+            }
+
+            double parseExpression()
+            {
+                double x = parseTerm();
+                for (;;)
+                {
+                    if      (eat('+')) x += parseTerm(); // addition
+                    else if (eat('-')) x -= parseTerm(); // subtraction
+                    else return x;
+                }
+            }
+
+            double parseTerm()
+            {
+                double x = parseFactor();
+                for (;;)
+                {
+
+                    if      (eat('*')) x *= parseFactor(); // multiplication
+                    else if(eat('/'))
+                    {
+                        double y = parseFactor();
+
+                        if (y != 0) {
+                            x /= y;
+                        } else {
+                            textViewResult.setText("ERROR");
+                            textViewInput.setText("ERROR");
+                        }
+                    }// division
+//                        if(eat('/')) x /= parseFactor();
+                    else if (eat('%')) x = ( x / 100);//percentage
+
+                    else return x;
+                }
+            }
+
+
+            double parseFactor()
+            {
+                double x;
+                int startPos = this.pos;
+
+                if ((ch >= '0' && ch <= '9') || ch == '.') // numbers
+                {
+                    while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
+                    x = Double.parseDouble(str.substring(startPos, this.pos));
+                }
+
+                else
+                    {
+                    throw new RuntimeException("Unexpected: " + (char)ch);
+                    }
+
+                return x;
+            }
+        }.parse();
+    }
+
+    private  String removeTrailingZeros(double d){
+        
+        String str = String.valueOf(d);
+        if (str == null){
+            return null;}
+
+        char[] chars = str.toCharArray();
+        int length,index ;
+        length = str.length();
+        index = length -1;
+        for (; index >=0;index--)
+        {
+            if (chars[index] != '0'){
+                break;}
+        }
+        //return (index == length-1) ? str :str.substring(0,index+1);
+
+        String myStr = (index == length-1) ? str :str.substring(0,index+1);
+        //System.out.println("myStr is "+myStr);
+        String finalStr = myStr;
+        if(myStr.endsWith(".")){
+            int len = myStr.length();
+            finalStr = myStr.substring(0,len-1);
+            System.out.println( "finalStr==>"+ finalStr);
+        }
+        return finalStr;
 
     }
+
 }
