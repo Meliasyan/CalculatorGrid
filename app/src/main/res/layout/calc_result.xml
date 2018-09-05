@@ -10,21 +10,25 @@
     <TextView
         android:id="@+id/tv_userInput"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
         android:text=""
-        android:textSize="30sp"
+        android:background="@color/colorTextViewInputButtonBG"
+        android:textColor="@color/colorTextViewInputButtonTxt"
+        android:textSize="35sp"
         android:layout_marginTop="2dp"
         android:gravity="end"/>
 
     <TextView
         android:id="@+id/tv_userResult"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:background="@color/colorTextViewResultButtonBG"
+        android:textColor="@color/colorTextViewResultButtonTxt"
         android:gravity="end"
         android:text=""
-        android:textSize="50sp"
+        android:textSize="55sp"
         />
 
 </LinearLayout>

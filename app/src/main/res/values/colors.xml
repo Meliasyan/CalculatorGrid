@@ -14,4 +14,11 @@
     <color name="colorEqualButtonBG">#ec7701</color>
     <color name="colorEqualButtonTxt">#333333</color>
 
+    <color name="colorTextViewInputButtonBG">#dedede</color>
+    <color name="colorTextViewInputButtonTxt">#000000</color>
+
+    <color name="colorTextViewResultButtonBG">#dedede</color>
+    <color name="colorTextViewResultButtonTxt">#000000</color>
+
+
 </resources>
