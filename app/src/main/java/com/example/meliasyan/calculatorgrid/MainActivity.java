@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 public class MainActivity extends AppCompatActivity
 {
     Button button_clear, button_percentage, button_divide, button_multiply, button_seven, button_eight, button_nine, button_minus, button_four,
-    button_five, button_six, button_plus, button_one, button_two, button_three, button_equal, button_dot, button_zero, button_doubleZero;
+    button_five, button_six, button_plus, button_one, button_two, button_three, button_equal, button_dot, button_zero;
 
     TextView textViewResult;
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         button_divide = findViewById(R.id.button_divide);
         button_dot = findViewById(R.id.button_dot);
         button_zero = findViewById(R.id.button_zero);
-        button_doubleZero = findViewById(R.id.button_doubleZero);
+       // button_doubleZero = findViewById(R.id.button_doubleZero);
 
         textViewInput = findViewById(R.id.tv_userInput);
         textViewResult = findViewById(R.id.tv_userResult);
@@ -77,16 +77,16 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        button_doubleZero.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                textViewInput.setText(textViewInput.getText() + "00");
-                double result = eval(textViewInput.getText().toString());
-                textViewInput.setText(removeTrailingZeros(result));
-            }
-        });
+//        button_doubleZero.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                textViewInput.setText(textViewInput.getText() + "00");
+//                double result = eval(textViewInput.getText().toString());
+//                textViewInput.setText(removeTrailingZeros(result));
+//            }
+//        });
 
         button_one.setOnClickListener(new View.OnClickListener()
         {
